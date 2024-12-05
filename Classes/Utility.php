@@ -256,7 +256,7 @@ class Utility
                 // v12
                 if (trim($itemValue['value'] ?? '') === $value) {
                     $infos['iconext'] = '';
-                    if (PathUtility::isExtensionPath($itemValue['icon'])) {
+                    if (isset($itemValue['icon']) && PathUtility::isExtensionPath($itemValue['icon'])) {
                         $infos['iconext'] = PathUtility::getPublicResourceWebPath($itemValue['icon']);
                     }
                     $infos[$type] = Utility::getLanguageService()->sL($itemValue['label']) . ' (' . $value . ')';
@@ -284,9 +284,9 @@ class Utility
                     $icon = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class)->getIconConfigurationByIdentifier(
                         $iconPath
                     );
-                    if (str_contains($icon['options']['source'], 'EXT:')) {
+                    if (isset($icon['options']) && str_contains($icon['options']['source'], 'EXT:')) {
                         $infos['iconext'] = PathUtility::getPublicResourceWebPath($icon['options']['source']);
-                    } else {
+                    }  elseif (isset($icon['options']['source'])) {
                         $infos['iconext'] = PathUtility::getAbsoluteWebPath($icon['options']['source']);
                     }
                 }
